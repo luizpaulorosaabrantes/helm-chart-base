@@ -55,3 +55,32 @@ entries:
     version: 0.1.0
 generated: "2021-11-14T21:05:46.417283607-03:00"
 ```
+
+## Configure github repo as Page Site
+
+Go to github repo settings and find Pages, just point out to your branch.
+
+## Added helm repo as repository
+
+In order to test our repo lets add our new repo as helm repository.
+
+```bash
+helm repo add lp-test https://luizpaulorosaabrantes.github.io/helm-chart-base/
+```
+
+Check with repo was added `helm repo list`:
+
+```
+NAME            URL                                                       
+bitnami         https://charts.bitnami.com/bitnami                        
+fluxcd          https://charts.fluxcd.io                                  
+lp-test         https://luizpaulorosaabrantes.github.io/helm-chart-base/  
+```
+
+### Adde new charts to an existting repository
+
+Whenever you need to add a new chart to the Helm chart repository, it’s mandatory for you to regenerate the `index.yaml` file. The `helm repo index` command will completely rebuild the index.yaml file from scratch, including only the charts that it finds locally, which very likely is our case. However, it worth notice that you can use the --merge flag to incrementally add new charts to an existing index.yaml.
+
+```bash
+helm repo index --url https://luizpaulorosaabrantes.github.io/helm-chart-base/ --merge index.yaml .
+```
